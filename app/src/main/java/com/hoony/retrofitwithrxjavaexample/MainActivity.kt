@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         binding.followersRequestButton.setOnClickListener {
             repository.getFollowers.subscribe(
                     { githubUsers ->
-                        var text: String = ""
+                        var text = ""
                         githubUsers.forEach {
                             text += it.toString()
                         }
