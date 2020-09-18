@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
                         githubUsers.forEach {
                             text += it.toString()
                         }
-                        binding.followersText.setText(text)
+
                     }, { throwable ->
 
             })
