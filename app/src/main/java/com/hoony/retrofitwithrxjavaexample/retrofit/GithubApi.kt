@@ -1,5 +1,6 @@
 package com.hoony.retrofitwithrxjavaexample.retrofit
 
+import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.GET
@@ -11,6 +12,9 @@ interface GithubApi {
 
     @GET("users/{user_name}/followers")
     fun getFollower(@Path("user_name") userName: String) : Single<Response<List<GithubUser>>>
+
+    @GET("users/{user_name}/followers")
+    fun getFollowerAsObservable(@Path("user_name") userName: String) : Observable<Response<List<GithubUser>>>
 }
 
 data class GithubUser(

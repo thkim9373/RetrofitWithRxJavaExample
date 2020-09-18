@@ -1,5 +1,6 @@
 package com.hoony.retrofitwithrxjavaexample.retrofit
 
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -39,4 +40,9 @@ class GithubRepository {
             .retry(2)
             .observeOn(AndroidSchedulers.mainThread())
     }
+
+    val getFollowerAsObservable: Observable<Response<List<GithubUser>>> = githubApi
+        .getFollowerAsObservable("octocat")
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
 }
