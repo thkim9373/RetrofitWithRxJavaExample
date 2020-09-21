@@ -6,7 +6,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
         tools:context=".MainActivity"
         tools:ignore="HardcodedText">
 
@@ -14,6 +13,7 @@
             android:id="@+id/followersRequestButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Request followers"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -23,8 +23,9 @@
             android:id="@+id/followerList"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/followersRequestButton" />
 

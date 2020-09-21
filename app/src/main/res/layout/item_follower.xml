@@ -32,7 +32,7 @@
             android:layout_marginStart="16dp"
             android:maxLines="1"
             android:singleLine="true"
-            android:text="@{gitHubUser.node_id}"
+            android:text="@{gitHubUser.login}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image"
