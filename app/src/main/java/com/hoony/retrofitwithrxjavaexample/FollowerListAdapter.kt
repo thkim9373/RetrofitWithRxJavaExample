@@ -13,7 +13,7 @@ import com.hoony.retrofitwithrxjavaexample.retrofit.GithubUser
 class FollowerListAdapter(private val githubFollowerList: List<GithubUser>): ListAdapter<GithubUser, FollowerListAdapter.FollowerViewHolder>(
     object : DiffUtil.ItemCallback<GithubUser>() {
         override fun areItemsTheSame(oldItem: GithubUser, newItem: GithubUser): Boolean =
-            oldItem.id == newItem.id
+            oldItem.hashCode() == newItem.hashCode()
 
         override fun areContentsTheSame(oldItem: GithubUser, newItem: GithubUser): Boolean =
             oldItem.hashCode() == newItem.hashCode()

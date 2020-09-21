@@ -21,28 +21,25 @@ class GithubRepository {
         return Retrofit.Builder()
             .client(
                 OkHttpClient.Builder()
-                .connectionPool(ConnectionPool(5, 20, TimeUnit.SECONDS))
-                .build())
+                    .connectionPool(ConnectionPool(5, 20, TimeUnit.SECONDS))
+                    .build()
+            )
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(baseUrl)
             .build()
     }
 
-    val getFollowers: Single<List<GithubUser>> = githubApi
+    val getFollowers: Single<Response<List<GithubUser>>> = githubApi
         .getFollowers("octocat")
         .subscribeOn(Schedulers.io())
+        .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
         .observeOn(AndroidSchedulers.mainThread())
 
-    private fun requestFollowers(username: String) : Single<Response<List<GithubUser>>> {
-        return githubApi.getFollower(username).subscribeOn(Schedulers.io())
-            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
-            .retry(2)
-            .observeOn(AndroidSchedulers.mainThread())
-    }
 
-    val getFollowerAsObservable: Observable<Response<List<GithubUser>>> = githubApi
-        .getFollowerAsObservable("octocat")
+    val getFollowersFail: Single<Response<List<GithubUser>>> = githubApi
+        .getFollowers("qqweaasda")
         .subscribeOn(Schedulers.io())
+        .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
         .observeOn(AndroidSchedulers.mainThread())
 }

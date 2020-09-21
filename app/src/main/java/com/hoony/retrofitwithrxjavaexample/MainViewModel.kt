@@ -1,5 +1,6 @@
 package com.hoony.retrofitwithrxjavaexample
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,12 +14,47 @@ class MainViewModel : ViewModel() {
     val followerList: LiveData<List<GithubUser>>
         get() = _followerList
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
+
     fun requestFollowers() {
+        _isLoading.value = true
+
         githubRepository.getFollowers.subscribe(
             { githubUsers ->
-                _followerList.value = githubUsers
-            }, { throwable ->
+                _isLoading.value = false
 
+                if (githubUsers.isSuccessful) {
+                    Log.d("hoony", "Request success : ${githubUsers.code()}")
+                    _followerList.value = githubUsers.body()
+                } else {
+                    Log.d("hoony", "Request fail : ${githubUsers.code()}")
+                }
+            }, { throwable ->
+                _isLoading.value = false
+
+                Log.d("hoony", "Request error : $throwable")
+            })
+    }
+
+    fun requestFollowersFail() {
+        _isLoading.value = true
+
+        githubRepository.getFollowersFail.subscribe(
+            { githubUsers ->
+                _isLoading.value = false
+
+                if (githubUsers.isSuccessful) {
+                    Log.d("hoony", "Request success : ${githubUsers.code()}")
+                    _followerList.value = githubUsers.body()
+                } else {
+                    Log.d("hoony", "Request fail : ${githubUsers.code()}")
+                }
+            }, { throwable ->
+                _isLoading.value = false
+
+                Log.d("hoony", "Request error : $throwable")
             })
     }
 }

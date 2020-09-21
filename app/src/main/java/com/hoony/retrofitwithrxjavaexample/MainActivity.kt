@@ -3,6 +3,7 @@ package com.hoony.retrofitwithrxjavaexample
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -36,16 +37,22 @@ class MainActivity : AppCompatActivity() {
         binding.followersRequestButton.setOnClickListener {
             viewModel.requestFollowers()
         }
+        binding.requestFailButton.setOnClickListener {
+            viewModel.requestFollowersFail()
+        }
     }
 
     private fun setObserve() {
         viewModel.followerList.observe(this, Observer {
-            val adapter: FollowerListAdapter? = binding.followerList.adapter as FollowerListAdapter?
+            val adapter = binding.followerList.adapter
             if (adapter != null) {
-                adapter.submitList(it)
+                (adapter as FollowerListAdapter).submitList(it)
             } else {
                 binding.followerList.adapter = FollowerListAdapter(it)
             }
+        })
+        viewModel.isLoading.observe(this, Observer {
+            binding.loading.isVisible = it
         })
     }
 }
