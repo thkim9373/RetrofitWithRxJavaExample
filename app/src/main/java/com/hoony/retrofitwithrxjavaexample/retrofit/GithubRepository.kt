@@ -34,6 +34,7 @@ class GithubRepository {
         .getFollowers("octocat")
         .subscribeOn(Schedulers.io())
         .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+        .retry(2)
         .observeOn(AndroidSchedulers.mainThread())
 
 
