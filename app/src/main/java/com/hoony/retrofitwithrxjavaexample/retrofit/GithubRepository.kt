@@ -1,11 +1,15 @@
 package com.hoony.retrofitwithrxjavaexample.retrofit
 
+import android.os.Build
+import android.util.Log
+import com.hoony.retrofitwithrxjavaexample.BuildConfig
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -22,6 +26,19 @@ class GithubRepository {
             .client(
                 OkHttpClient.Builder()
                     .connectionPool(ConnectionPool(5, 20, TimeUnit.SECONDS))
+                    .addInterceptor(
+                        HttpLoggingInterceptor(
+                            HttpLoggingInterceptor.Logger {
+                                Log.i("TEST", it)
+                            }
+                        ).apply {
+                            level = if (BuildConfig.DEBUG) {
+                                HttpLoggingInterceptor.Level.BODY
+                            } else {
+                                HttpLoggingInterceptor.Level.NONE
+                            }
+                        }
+                    )
                     .build()
             )
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
