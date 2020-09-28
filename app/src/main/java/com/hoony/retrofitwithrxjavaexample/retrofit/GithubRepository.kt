@@ -1,9 +1,7 @@
 package com.hoony.retrofitwithrxjavaexample.retrofit
 
-import android.os.Build
 import android.util.Log
 import com.hoony.retrofitwithrxjavaexample.BuildConfig
-import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -51,7 +49,10 @@ class GithubRepository {
         .getFollowers("octocat")
         .subscribeOn(Schedulers.io())
         .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
-        .retry(2)
+//        .retry() // 성공할때까지 재시도
+        .retry(2) // 실패시 2회 재시도
+//        .retry { t -> t is HttpException } // 실패시 HttpException 일경우 성공할때까지 재시도
+//        .retry(2) { t -> t is HttpException } // 실패시 HttpException 일경우 2회 재시도
         .observeOn(AndroidSchedulers.mainThread())
 
 
